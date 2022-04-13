@@ -6,3 +6,11 @@ D:\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.
 D:\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.CoreCompileInputs.cache
 D:\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.exe
 D:\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.pdb
+D:\Source Code\MaterialProcurement\MaterialProcurement\bin\Debug\MaterialProcurement.exe.config
+D:\Source Code\MaterialProcurement\MaterialProcurement\bin\Debug\MaterialProcurement.exe
+D:\Source Code\MaterialProcurement\MaterialProcurement\bin\Debug\MaterialProcurement.pdb
+D:\Source Code\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.AssemblyReference.cache
+D:\Source Code\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.SuggestedBindingRedirects.cache
+D:\Source Code\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.CoreCompileInputs.cache
+D:\Source Code\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.exe
+D:\Source Code\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.pdb

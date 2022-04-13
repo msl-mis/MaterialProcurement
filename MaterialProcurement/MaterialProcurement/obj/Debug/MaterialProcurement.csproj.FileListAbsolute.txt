@@ -1,8 +1,0 @@
-D:\MaterialProcurement\MaterialProcurement\bin\Debug\MaterialProcurement.exe.config
-D:\MaterialProcurement\MaterialProcurement\bin\Debug\MaterialProcurement.exe
-D:\MaterialProcurement\MaterialProcurement\bin\Debug\MaterialProcurement.pdb
-D:\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.AssemblyReference.cache
-D:\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.SuggestedBindingRedirects.cache
-D:\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.CoreCompileInputs.cache
-D:\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.exe
-D:\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.pdb
