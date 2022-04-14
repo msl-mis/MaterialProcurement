@@ -50,7 +50,7 @@ namespace MaterialProcurement
 
         //static String strSQLConnection = "Data Source =192.168.10.119; Initial Catalog = Test; Persist Security Info=false; User ID = sa; Password = yzf; Max Pool Size=30000;Connection Timeout=1200";//本機資料庫連接
         //static String strSQLConnection = "Data Source =192.168.10.22; Initial Catalog = Test; Persist Security Info=false; User ID = sa; Password = yzf; Max Pool Size=30000;Connection Timeout=1200";//資料庫連接測試區
-        static String strSQLConnection = "Data Source =192.168.10.22; Initial Catalog = Test; Persist Security Info=false; User ID = sa; Password = yzf; Max Pool Size=30000;Connection Timeout=1200";//資料庫連接正式區
+        static String strSQLConnection = "Data Source =192.168.10.22; Initial Catalog = Price; Persist Security Info=false; User ID = sa; Password = yzf; Max Pool Size=30000;Connection Timeout=1200";//資料庫連接正式區
         static void Main(string[] args)
         {
             try
