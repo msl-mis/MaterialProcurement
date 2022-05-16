@@ -61,7 +61,7 @@ namespace MaterialProcurement
 
                 string[] strID = new string[] { "銅桿OD2.6mm/kg", "PVC粉S-60", "PVC粉S-65", "芯線料/HDPE 9007(3364)/kg", "可塑劑 DOTP", "可塑劑 TOTM", "填充劑活性鈣 HX-CCR 3000" };
                 string[] strERPID = new string[] { "A6HA01-8888", "A5CB02-5555", "A5CB01-5555", "A5BA09-7777", "A5DA07-5555", "A5DA03-5555", "A5DD34-5555" };
-                for (int i = 0; i < strID.Length; i++)
+                for (int i = 1; i < strID.Length; i++)
                 {
                     Double dblSettingPrice = 0;
                     if (i==0)
