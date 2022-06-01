@@ -84,7 +84,7 @@ namespace MaterialProcurement
                         oddate = "";
                         oduser = "";
                     }
-                    asp_purprice = Convert.ToDouble(dblSettingPrice.ToString("#0.00"));      //輸入火車頭的銅價取2位
+                    asp_purprice = Convert.ToDouble(dblSettingPrice.ToString("#0.000000"));      //輸入火車頭的銅價取6位 //20220601修改
                     asp_pricecal = asp_purprice.ToString();                                  //銅價火車頭單價計算式=單價
                     DoUpdate_asp();                     //更新asp資料
                     DoUpdate_asp_od();                  //更新審核+越南材料check
