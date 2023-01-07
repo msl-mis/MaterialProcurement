@@ -59,7 +59,7 @@ namespace MaterialProcurement
                 string strSQL = $@"update wus set wus_name = '系統更新' from wus where wus_computername = host_name()";
                 DoExecuteNonQuery(strSQL);
                 //20221107將"填充劑活性鈣 HX-CCR 3000""A5DD34%"變更"中性碳酸鈣XD-2""A5DD34%"
-                string[] strID = new string[] { "銅桿OD2.6mm/kg", "PVC粉S-60", "PVC粉S-65", "芯線料/HDPE 9007(3364)/kg", "可塑劑 DOTP", "可塑劑 TOTM", "中性碳酸鈣XD-2" };
+                string[] strID = new string[] { "銅桿OD2.6mm/kg", "PVC粉S-60", "PVC粉S-65", "芯線料/HDPE 9007(3364)/kg", "可塑劑 DOTP", "可塑劑 TOTM", "填充劑中性碳酸鈣XD-2" };
                 //string[] strERPID = new string[] { "A6HA01-8888", "A5CB02-5555", "A5CB01-5555", "A5BA09-7777", "A5DA07-5555", "A5DA03-5555", "A5DD34-5555" };
                 //20220802 modify by Thomas 品號改成搜前6碼
                 string[] strERPID = new string[] { "A6HA01%", "A5CB02%' or PURTD.TD004 like N'A5CB08%", "A5CB01%", "A5BA09%", "A5DA07%", "A5DA03%", "A5DB23%" };
