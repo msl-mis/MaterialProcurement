@@ -62,7 +62,7 @@ namespace MaterialProcurement
                 string[] strID = new string[] { "銅桿OD2.6mm/kg", "PVC粉S-60", "PVC粉S-65", "芯線料/HDPE 9007(3364)/kg", "可塑劑 DOTP", "可塑劑 TOTM", "填充劑中性碳酸鈣XD-2" };
                 //string[] strERPID = new string[] { "A6HA01-8888", "A5CB02-5555", "A5CB01-5555", "A5BA09-7777", "A5DA07-5555", "A5DA03-5555", "A5DD34-5555" };
                 //20220802 modify by Thomas 品號改成搜前6碼
-                string[] strERPID = new string[] { "A6HA01%", "A5CB02%' or PURTD.TD004 like N'A5CB08%", "A5CB01%", "A5BA09%", "A5DA07%", "A5DA03%", "A5DB23%" };
+                string[] strERPID = new string[] { "A6HA01%", "A5CB02%' or PURTD.TD004 like N'A5CB08%", "A5CB01%", "A5BA09%' or PURTD.TD004 like N'A5BA18%", "A5DA07%", "A5DA03%", "A5DB23%" };
                 for (int i = 1; i < strID.Length; i++)
                 {
                     Double dblSettingPrice = 0;
@@ -346,7 +346,7 @@ namespace MaterialProcurement
                                                       PURTC.TC014 = 'Y' )
                                 and        cum_adddate= (　select MAX(cum_adddate) from cum where cum_code='人民幣' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
                                 and        (
-                                                      substring(PURTC.TC003,1,6) = '{DateTime.Now.ToString("yyyyMM")}' )
+                                                      PURTC.TC003 between '{DateTime.Now.AddMonths(-1).ToString("yyyyMM26")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM25")}' )
                                 union all
                                 select     PURTC.TC001                                      as 採購單別,
                                            PURTC.TC002                                      as 採購單號,
@@ -376,7 +376,7 @@ namespace MaterialProcurement
                                                       PURTC.TC014 = 'Y' )
                                 and        cum_adddate= (　select MAX(cum_adddate) from cum where cum_code='美金' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
                                 and        (
-                                                      substring(PURTC.TC003,1,6) = '{DateTime.Now.ToString("yyyyMM")}' )
+                                                      PURTC.TC003 between '{DateTime.Now.AddMonths(-1).ToString("yyyyMM26")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM25")}' )
                                 order by   採購單號";
             cmd = conn.CreateCommand();
             cmd.CommandText = strSQL;
