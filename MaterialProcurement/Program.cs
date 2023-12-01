@@ -779,7 +779,7 @@ namespace MaterialProcurement
             MailMessage MyMail = new MailMessage();
             MyMail.From = new MailAddress("sqluser@msl.com.tw");
             //MyMail.To.Add("收件者Email");加入收件者Email
-            MyMail.To.Add("thomas@msl.com.tw"); //加入收件者Email
+            //MyMail.To.Add("thomas@msl.com.tw"); //加入收件者Email
             MyMail.To.Add("peggy@msl.com.tw"); //加入收件者Email
             //MyMail.CC.Add("副本的Mail"); //加入副本的Mail
             //MyMail.Bcc.Add("密件副本的收件者Mail"); //加入密件副本的Mail          
