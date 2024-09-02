@@ -788,8 +788,8 @@ namespace MaterialProcurement
             MyMail.IsBodyHtml = false; //是否使用html格式
             //Attachment attdata = new Attachment(@"D:\" + sDate + @"生產日報.xlsx", MediaTypeNames.Application.Octet);
             //MyMail.Attachments.Add(attdata);
-            SmtpClient MySMTP = new SmtpClient("192.168.10.17", 25);
-            MySMTP.Credentials = new System.Net.NetworkCredential("sqluser@msl.com.tw", "22995234");
+            SmtpClient MySMTP = new SmtpClient("webmail.msl.com.tw", 25);
+            MySMTP.Credentials = new System.Net.NetworkCredential("sqluser@msl.com.tw", "msl22995234");
             MySMTP.Send(MyMail);
             MyMail.Dispose(); //釋放資源
         }
