@@ -48,7 +48,7 @@ namespace MaterialProcurement
         static String oddate = "";                      //審核日期
         static String oduser = "";                      //審核者
 
-        //static String strSQLConnection = "Data Source =192.168.10.119; Initial Catalog = Test; Persist Security Info=false; User ID = sa; Password = yzf; Max Pool Size=30000;Connection Timeout=1200";//本機資料庫連接
+        
         //static String strSQLConnection = "Data Source =192.168.10.22; Initial Catalog = Test; Persist Security Info=false; User ID = sa; Password = yzf; Max Pool Size=30000;Connection Timeout=1200";//資料庫連接測試區
         static String strSQLConnection = "Data Source =192.168.10.22; Initial Catalog = Price; Persist Security Info=false; User ID = sa; Password = yzf; Max Pool Size=30000;Connection Timeout=1200";//資料庫連接正式區
         static void Main(string[] args)
@@ -62,7 +62,7 @@ namespace MaterialProcurement
                 string[] strID = new string[] { "銅桿OD2.6mm/kg", "PVC粉S-60", "PVC粉S-65", "芯線料/HDPE 9007(3364)/kg", "可塑劑 DOTP", "可塑劑 TOTM", "填充劑中性碳酸鈣XD-2" };
                 //string[] strERPID = new string[] { "A6HA01-8888", "A5CB02-5555", "A5CB01-5555", "A5BA09-7777", "A5DA07-5555", "A5DA03-5555", "A5DD34-5555" };
                 //20220802 modify by Thomas 品號改成搜前6碼
-                string[] strERPID = new string[] { "A6HA01%", "A5CB02%' or PURTD.TD004 like N'A5CB08%", "A5CB01%", "A5BA09%' or PURTD.TD004 like N'A5BA18%", "A5DA07%", "A5DA03%", "A5DB23%" };
+                string[] strERPID = new string[] { "A6HA01%", "A5CB02%' or PURTD.TD004 like N'A5CB08%", "A5CB01%' or PURTD.TD004 like N'A5CB10%", "A5BA09%' or PURTD.TD004 like N'A5BA18%", "A5DA07%", "A5DA03%", "A5DB23%" };
                 for (int i = 1; i < strID.Length; i++)
                 {
                     Double dblSettingPrice = 0;
@@ -200,7 +200,7 @@ namespace MaterialProcurement
             string strSQL = $@"select cum_convert
                                 from   cum
                                 where  cum_code='{strCurrency}'
-                                and    cum_adddate= (　select max(cum_adddate) from cum where cum_code='{strCurrency}' and　format(cum_adddate,'yyyyMM')<='{ DateTime.Now.ToString("yyyyMM")}') ";
+                                and    cum_adddate= (select max(cum_adddate) from cum where cum_code='{strCurrency}' and　format(cum_adddate,'yyyyMM')<='{ DateTime.Now.ToString("yyyyMM")}') ";
             cmd = conn.CreateCommand();
             cmd.CommandText = strSQL;
             dr = cmd.ExecuteReader();
@@ -238,33 +238,27 @@ namespace MaterialProcurement
                                            (PURTD.TD010 * PURTD.TD008 / 1.11 ) * cum_convert    as NTAMT
                                 from       [ERPDB].[MSLCN].dbo.PURTC
                                 inner join [ERPDB].[MSLCN].dbo.PURTD
-                                on         PURTC.TC001 = PURTD.TD001
-                                and        PURTC.TC002 = PURTD.TD002
+                                        on     PURTC.TC001 = PURTD.TD001  and   PURTC.TC002 = PURTD.TD002
                                 inner join [ERPDB].[MSLCN].dbo.PURMA
-                                on         PURMA.MA001 = PURTC.TC004,
-                                           cum
-                                where      (
-                                                      PURTC.TC001 = N'C330' )
-                                and        (
-                                                      PURTD.TD004 = N'A6HA01-8888' )
-                                and        (
-                                                      cum_code = '人民幣' )
-                                and        (
-                                                      PURTC.TC014 = 'Y' )
-                                and        cum_adddate= (　select MAX(cum_adddate) from cum where cum_code='人民幣' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
-                                and        (
-                                                      substring(PURTC.TC003,1,6) = '{DateTime.Now.ToString("yyyyMM")}' )
+                                        on      PURMA.MA001 = PURTC.TC004
+                                 , cum
+                                where    ( PURTC.TC001 = N'C330' )
+                                and        ( PURTD.TD004 = N'A6HA01-8888' )
+                                and        ( cum_code = '人民幣' )
+                                and        (PURTC.TC014 = 'Y' )
+                                and        cum_adddate= (select MAX(cum_adddate) from cum where cum_code='人民幣' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
+                                and        ( substring(PURTC.TC003,1,6) = '{DateTime.Now.ToString("yyyyMM")}' )
                                 union all
-                                select     PURTC.TC001                                      as 採購單別,
-                                           PURTC.TC002                                      as 採購單號,
-                                           PURTC.TC003                                      as 採購日期,
-                                           PURTC.TC004 + ' ' + PURMA.MA002                  as 廠商名稱,
-                                           PURTD.TD004                                      as 品號,
-                                           PURTD.TD006                                      as 規格,
-                                           PURTC.TC009                                      as 備註,
+                                select     PURTC.TC001                                                     as 採購單別,
+                                           PURTC.TC002                                                      as 採購單號,
+                                           PURTC.TC003                                                      as 採購日期,
+                                           PURTC.TC004 + ' ' + PURMA.MA002                as 廠商名稱,
+                                           PURTD.TD004                                                      as 品號,
+                                           PURTD.TD006                                                      as 規格,
+                                           PURTC.TC009                                                       as 備註,
                                            (PURTD.TD010 / 1000)* cum_convert                as 採購單價,
-                                           PURTD.TD008*1000                                 as 數量合計,
-                                           PURTD.TD010 * PURTD.TD008                        as USAMT,
+                                           PURTD.TD008*1000                                             as 數量合計,
+                                           PURTD.TD010 * PURTD.TD008                            as USAMT,
                                            (PURTD.TD010 * PURTD.TD008) * cum_convert        as NTAMT
                                 from       [ERPDB].[TESTMVE1].dbo.PURTC
                                 inner join [ERPDB].[TESTMVE1].dbo.PURTD
@@ -273,17 +267,12 @@ namespace MaterialProcurement
                                 inner join [ERPDB].[TESTMVE1].dbo.PURMA
                                 on         PURMA.MA001 = PURTC.TC004,
                                            cum
-                                where      (
-                                                      PURTC.TC001 = N'M330' )
-                                and        (
-                                                      PURTD.TD004 = N'A6HA01-8888' )
-                                and        (
-                                                      cum_code = '美金' )
-                                and        (
-                                                      PURTC.TC014 = 'Y' )
-                                and        cum_adddate= (　select MAX(cum_adddate) from cum where cum_code='美金' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
-                                and        (
-                                                      substring(PURTC.TC003,1,6) = '{DateTime.Now.ToString("yyyyMM")}' )
+                                where      (PURTC.TC001 = N'M330' )
+                                and        ( PURTD.TD004 = N'A6HA01-8888' )
+                                and        ( cum_code = '美金' )
+                                and        ( PURTC.TC014 = 'Y' )
+                                and        cum_adddate= (select MAX(cum_adddate) from cum where cum_code='美金' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
+                                and        (substring(PURTC.TC003,1,6) = '{DateTime.Now.ToString("yyyyMM")}' )
                                 order by   採購單號";
             cmd = conn.CreateCommand();
             cmd.CommandText = strSQL;
@@ -318,36 +307,70 @@ namespace MaterialProcurement
             SqlCommand cmd;
             SqlDataReader dr;
             //20220802 modify by Thomas 品號改成搜前6碼
-            string strSQL = $@"select     PURTC.TC001                                           as 採購單別,
-                                           PURTC.TC002                                          as 採購單號,
-                                           PURTC.TC003                                          as 採購日期,
-                                           PURTC.TC004 + ' ' + PURMA.MA002                      as 廠商名稱,
-                                           PURTD.TD004                                          as 品號,
-                                           PURTD.TD006                                          as 規格,
-                                           PURTC.TC009                                          as 備註,
-                                           PURTD.TD010* cum_convert/1.11                        as 採購單價,
-                                           PURTD.TD008                                          as 數量合計,
-                                           PURTD.TD010 * PURTD.TD008 / 1.11                     as RMBAMT,
-                                           (PURTD.TD010 * PURTD.TD008 / 1.11 ) * cum_convert    as NTAMT
+            string strSQL = $@"select     PURTC.TC001                                              as 採購單別,
+                                           PURTC.TC002                                                              as 採購單號,
+                                           PURTC.TC003                                                              as 採購日期,
+                                           PURTC.TC004 + ' ' + PURMA.MA002                       as 廠商名稱,
+                                           PURTD.TD004                                                             as 品號,
+                                           PURTD.TD006                                                             as 規格,
+                                           PURTC.TC009                                                             as 備註,
+                                           Case When PURTD.TD004 like 'A5DB23%' 
+				                             Then PURTD.TD010* cum_convert*1.13
+				                              Else PURTD.TD010* cum_convert/1.11
+		                                   End  as 採購單價,
+                                           PURTD.TD008                                                             as 數量合計,
+                                           Case When PURTD.TD004 like 'A5DB23%' 
+                                                  Then PURTD.TD010 * PURTD.TD008*1.13
+                                                   Else PURTD.TD010 * PURTD.TD008 / 1.11
+                                           End as RMBAMT,
+                                            Case When PURTD.TD004 like 'A5DB23%' 
+                                                   Then  (PURTD.TD010 * PURTD.TD008*1.13 ) * cum_convert 
+                                                    Else (PURTD.TD010 * PURTD.TD008 / 1.11 ) * cum_convert    
+                                           End as NTAMT
                                 from       [ERPDB].[MSLCN].dbo.PURTC
                                 inner join [ERPDB].[MSLCN].dbo.PURTD
-                                on         PURTC.TC001 = PURTD.TD001
-                                and        PURTC.TC002 = PURTD.TD002
+                                    on    PURTC.TC001 = PURTD.TD001 and   PURTC.TC002 = PURTD.TD002
                                 inner join [ERPDB].[MSLCN].dbo.PURMA
-                                on         PURMA.MA001 = PURTC.TC004,
-                                           cum
-                                where      (
-                                                      PURTC.TC001 = N'C330' )
-                                and        (
-                                                      PURTD.TD004 like N'{strERPID}' )
-                                and        (
-                                                      cum_code = '人民幣' )
-                                and        (
-                                                      PURTC.TC014 = 'Y' )
-                                and        cum_adddate= (　select MAX(cum_adddate) from cum where cum_code='人民幣' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
-                                and        (
-                                                      PURTC.TC003 between '{DateTime.Now.AddMonths(-1).ToString("yyyyMM26")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM25")}' )
-                                union all
+                                    on   PURMA.MA001 = PURTC.TC004
+                                ,cum
+                                where   ( PURTC.TC001 = N'C330' )
+                                    and   ( PURTD.TD004 like N'{strERPID}' )
+                                    and   ( cum_code = '人民幣' )
+                                    and   (PURTC.TC014 = 'Y' )
+                                    and   cum_adddate= (select MAX(cum_adddate) from cum where cum_code='人民幣' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
+                                    and   ( PURTC.TC003 between '{DateTime.Now.AddMonths(-1).ToString("yyyyMM26")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM25")}' )
+                                Union All
+                                select     PURTC.TC001                                              as 採購單別,
+                                           PURTC.TC002                                                              as 採購單號,
+                                           PURTC.TC003                                                              as 採購日期,
+                                           PURTC.TC004 + ' ' + PURMA.MA002                       as 廠商名稱,
+                                           PURTD.TD004                                                             as 品號,
+                                           PURTD.TD006                                                             as 規格,
+                                           PURTC.TC009                                                             as 備註,
+                                           Case When PURTD.TD004 like 'A5DB23%' 
+				                             Then PURTD.TD010* cum_convert*1.13
+				                              Else PURTD.TD010* cum_convert/1.11
+		                                   End  as 採購單價,
+                                           PURTD.TD008                                                             as 數量合計,
+                                           Case When PURTD.TD004 like 'A5DB23%' 
+                                                  Then PURTD.TD010 * PURTD.TD008*1.13
+                                                   Else PURTD.TD010 * PURTD.TD008 / 1.11
+                                           End as RMBAMT,
+                                            Case When PURTD.TD004 like 'A5DB23%' 
+                                                   Then  (PURTD.TD010 * PURTD.TD008*1.13 ) * cum_convert 
+                                                    Else (PURTD.TD010 * PURTD.TD008 / 1.11 ) * cum_convert    
+                                           End as NTAMT
+                                from       [ERPDB].[MSLCNNET].dbo.PURTC
+                                inner join [ERPDB].[MSLCNNET].dbo.PURTD    on    PURTC.TC001 = PURTD.TD001 and   PURTC.TC002 = PURTD.TD002
+                                inner join [ERPDB].[MSLCNNET].dbo.PURMA   on   PURMA.MA001 = PURTC.TC004
+                                ,cum
+                                where   ( PURTC.TC001 = N'E330' )
+                                    and   ( PURTD.TD004 like N'{strERPID}' )
+                                    and   ( cum_code = '人民幣' )
+                                    and   (PURTC.TC014 = 'Y' )
+                                    and   cum_adddate= (select MAX(cum_adddate) from cum where cum_code='人民幣' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
+                                    and   ( PURTC.TC003 between '{DateTime.Now.AddMonths(-1).ToString("yyyyMM26")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM25")}' )
+                                Union All
                                 select     PURTC.TC001                                      as 採購單別,
                                            PURTC.TC002                                      as 採購單號,
                                            PURTC.TC003                                      as 採購日期,
@@ -366,17 +389,12 @@ namespace MaterialProcurement
                                 inner join [ERPDB].[TESTMVE1].dbo.PURMA
                                 on         PURMA.MA001 = PURTC.TC004,
                                            cum
-                                where      (
-                                                      PURTC.TC001 = N'M330' )
-                                and        (
-                                                      PURTD.TD004 like N'{strERPID}' )
-                                and        (
-                                                      cum_code = '美金' )
-                                and        (
-                                                      PURTC.TC014 = 'Y' )
-                                and        cum_adddate= (　select MAX(cum_adddate) from cum where cum_code='美金' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
-                                and        (
-                                                      PURTC.TC003 between '{DateTime.Now.AddMonths(-1).ToString("yyyyMM26")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM25")}' )
+                                where     ( PURTC.TC001 = N'M330' )
+                                and        (PURTD.TD004 like N'{strERPID}' )
+                                and        ( cum_code = '美金' )
+                                and        (PURTC.TC014 = 'Y' )
+                                and        cum_adddate= (select MAX(cum_adddate) from cum where cum_code='美金' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
+                                and        ( PURTC.TC003 between '{DateTime.Now.AddMonths(-1).ToString("yyyyMM26")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM25")}' )
                                 order by   採購單號";
             cmd = conn.CreateCommand();
             cmd.CommandText = strSQL;
