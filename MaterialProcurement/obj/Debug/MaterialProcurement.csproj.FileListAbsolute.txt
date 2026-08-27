@@ -30,3 +30,10 @@ D:\_SoureCode\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurem
 D:\_SoureCode\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.CoreCompileInputs.cache
 D:\_SoureCode\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.exe
 D:\_SoureCode\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.pdb
+D:\_SourseCode\MaterialProcurement\MaterialProcurement\bin\Debug\MaterialProcurement.exe.config
+D:\_SourseCode\MaterialProcurement\MaterialProcurement\bin\Debug\MaterialProcurement.exe
+D:\_SourseCode\MaterialProcurement\MaterialProcurement\bin\Debug\MaterialProcurement.pdb
+D:\_SourseCode\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.AssemblyReference.cache
+D:\_SourseCode\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.csproj.CoreCompileInputs.cache
+D:\_SourseCode\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.exe
+D:\_SourseCode\MaterialProcurement\MaterialProcurement\obj\Debug\MaterialProcurement.pdb
