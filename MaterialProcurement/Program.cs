@@ -63,6 +63,7 @@ namespace MaterialProcurement
                 //string[] strERPID = new string[] { "A6HA01-8888", "A5CB02-5555", "A5CB01-5555", "A5BA09-7777", "A5DA07-5555", "A5DA03-5555", "A5DD34-5555" };
                 //20220802 modify by Thomas 品號改成搜前6碼
                 string[] strERPID = new string[] { "A6HA01%", "A5CB02%' or PURTD.TD004 like N'A5CB08%", "A5CB01%' or PURTD.TD004 like N'A5CB10%", "A5BA09%' or PURTD.TD004 like N'A5BA18%", "A5DA07%", "A5DA03%", "A5DB23%" };
+                StringBuilder mailDetail = new StringBuilder();
                 for (int i = 1; i < strID.Length; i++)
                 {
                     Double dblSettingPrice = 0;
@@ -85,8 +86,13 @@ namespace MaterialProcurement
                     {
                         oddate = "";
                         oduser = "";
+                        asp_purprice = Convert.ToDouble(dblSettingPrice.ToString("#0.##"));
+                        mailDetail.AppendLine
+                         (
+                        $"<tr><td>{strID[i]}</td><td>{asp_purprice:#,##0.##}</td></tr>"
+                         );
                     }
-                    asp_purprice = Convert.ToDouble(dblSettingPrice.ToString("#0.##"));      //輸入火車頭的銅價取6位 //20220601修改
+                    //asp_purprice = Convert.ToDouble(dblSettingPrice.ToString("#0.##"));      //輸入火車頭的銅價取6位 //20220601修改
                     asp_pricecal = asp_purprice.ToString();                                  //銅價火車頭單價計算式=單價
                     DoUpdate_asp();                     //更新asp資料
                     DoUpdate_asp_od();                  //更新審核+越南材料check
@@ -94,8 +100,16 @@ namespace MaterialProcurement
                     DoUpdate_asp_lengum();              //線材材料UL標記
                     DoCheck_asp_vendormaterialno();     //檢查是否有品號,若有則檢查多品號設定
                     DoCheck_pri_newcostchk();           //檢查材料單是否存在,若不存在則把標記去除
-                } 
-                string strResult = "材料採購價自動輸入成功 ";
+                }
+                string strResult =
+                    "<h3>材料採購價自動輸入成功</h3>" +
+                    "<table border='1' cellpadding='6' cellspacing='0'>" +
+                    "<tr style='background-color:#eeeeee;'>" +
+                    "<th>材料名</th><th>單價</th>" +
+                    "</tr>" +
+                    mailDetail.ToString() +
+                    "</table>";
+
                 Mail(strResult);
             }
             catch (Exception ex)
@@ -103,6 +117,7 @@ namespace MaterialProcurement
                 string strResult = "材料採購價自動輸入失敗 " + ex;
                 Mail(strResult);
             }
+
         }
         private static Double GetCopperPrice(string strID, string strERPID)     //取得銅設定價格
         {
@@ -797,15 +812,10 @@ namespace MaterialProcurement
             MailMessage MyMail = new MailMessage();
             MyMail.From = new MailAddress("sqluser@msl.com.tw");
             //MyMail.To.Add("收件者Email");加入收件者Email
-            //MyMail.To.Add("thomas@msl.com.tw"); //加入收件者Email
             MyMail.To.Add("peggy@msl.com.tw"); //加入收件者Email
-            //MyMail.CC.Add("副本的Mail"); //加入副本的Mail
-            //MyMail.Bcc.Add("密件副本的收件者Mail"); //加入密件副本的Mail          
             MyMail.Subject = "材料採購價設定資訊";
-            MyMail.Body = strResult + " 結束時間:" + DateTime.Now.ToString(); //設定信件內容
-            MyMail.IsBodyHtml = false; //是否使用html格式
-            //Attachment attdata = new Attachment(@"D:\" + sDate + @"生產日報.xlsx", MediaTypeNames.Application.Octet);
-            //MyMail.Attachments.Add(attdata);
+            MyMail.Body = strResult +  "<br>結束時間：" +  DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");//設定信件內容
+            MyMail.IsBodyHtml = true; 
             SmtpClient MySMTP = new SmtpClient("webmail.msl.com.tw", 25);
             MySMTP.Credentials = new System.Net.NetworkCredential("sqluser@msl.com.tw", "msl22995234");
             MySMTP.Send(MyMail);
