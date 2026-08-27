@@ -338,7 +338,7 @@ namespace MaterialProcurement
                                     and   ( cum_code = '人民幣' )
                                     and   (PURTC.TC014 = 'Y' )
                                     and   cum_adddate= (select MAX(cum_adddate) from cum where cum_code='人民幣' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
-                                    and   ( PURTC.TC003 between '{DateTime.Now.AddMonths(-1).ToString("yyyyMM26")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM25")}' )
+                                    and   ( PURTC.TC003 between '{DateTime.Now.AddMonths(0).ToString("yyyyMM01")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM31")}' )
                                 Union All
                                 select     PURTC.TC001                                              as 採購單別,
                                            PURTC.TC002                                                              as 採購單號,
@@ -369,7 +369,7 @@ namespace MaterialProcurement
                                     and   ( cum_code = '人民幣' )
                                     and   (PURTC.TC014 = 'Y' )
                                     and   cum_adddate= (select MAX(cum_adddate) from cum where cum_code='人民幣' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
-                                    and   ( PURTC.TC003 between '{DateTime.Now.AddMonths(-1).ToString("yyyyMM26")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM25")}' )
+                                    and   ( PURTC.TC003 between '{DateTime.Now.AddMonths(0).ToString("yyyyMM01")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM31")}' )
                                 Union All
                                 select     PURTC.TC001                                      as 採購單別,
                                            PURTC.TC002                                      as 採購單號,
@@ -394,7 +394,7 @@ namespace MaterialProcurement
                                 and        ( cum_code = '美金' )
                                 and        (PURTC.TC014 = 'Y' )
                                 and        cum_adddate= (select MAX(cum_adddate) from cum where cum_code='美金' and　format(cum_adddate,'yyyyMM')<='{DateTime.Now.ToString("yyyyMM")}')
-                                and        ( PURTC.TC003 between '{DateTime.Now.AddMonths(-1).ToString("yyyyMM26")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM25")}' )
+                                and        ( PURTC.TC003 between '{DateTime.Now.AddMonths(0).ToString("yyyyMM01")}' and '{DateTime.Now.AddMonths(0).ToString("yyyyMM31")}' )
                                 order by   採購單號";
             cmd = conn.CreateCommand();
             cmd.CommandText = strSQL;
