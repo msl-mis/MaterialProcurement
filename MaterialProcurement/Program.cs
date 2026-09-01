@@ -200,7 +200,7 @@ namespace MaterialProcurement
                 case "LME":
                     return (Double)(dblLME / 1000 * GetExchangeRate("美金"));
                 case "SHFE":
-                    return (Double)(dblSHFE / 1000 / 1.11 * GetExchangeRate("人民幣"));
+                    return (Double)(dblSHFE / 1000 / 1.126 * GetExchangeRate("人民幣"));
                 default:
                     return 0;
             }
@@ -247,10 +247,10 @@ namespace MaterialProcurement
                                            PURTD.TD004                                          as 品號,
                                            PURTD.TD006                                          as 規格,
                                            PURTC.TC009                                          as 備註,
-                                           PURTD.TD010* cum_convert/1.11                        as 採購單價,
+                                           PURTD.TD010* cum_convert/1.126                        as 採購單價,
                                            PURTD.TD008                                          as 數量合計,
-                                           PURTD.TD010 * PURTD.TD008 / 1.11                     as RMBAMT,
-                                           (PURTD.TD010 * PURTD.TD008 / 1.11 ) * cum_convert    as NTAMT
+                                           PURTD.TD010 * PURTD.TD008 / 1.126                     as RMBAMT,
+                                           (PURTD.TD010 * PURTD.TD008 / 1.126 ) * cum_convert    as NTAMT
                                 from       [ERPDB].[MSLCN].dbo.PURTC
                                 inner join [ERPDB].[MSLCN].dbo.PURTD
                                         on     PURTC.TC001 = PURTD.TD001  and   PURTC.TC002 = PURTD.TD002
@@ -331,16 +331,16 @@ namespace MaterialProcurement
                                            PURTC.TC009                                                             as 備註,
                                            Case When PURTD.TD004 like 'A5DB23%' 
 				                             Then PURTD.TD010* cum_convert*1.13
-				                              Else PURTD.TD010* cum_convert/1.11
+				                              Else PURTD.TD010* cum_convert/1.126
 		                                   End  as 採購單價,
                                            PURTD.TD008                                                             as 數量合計,
                                            Case When PURTD.TD004 like 'A5DB23%' 
                                                   Then PURTD.TD010 * PURTD.TD008*1.13
-                                                   Else PURTD.TD010 * PURTD.TD008 / 1.11
+                                                   Else PURTD.TD010 * PURTD.TD008 / 1.126
                                            End as RMBAMT,
                                             Case When PURTD.TD004 like 'A5DB23%' 
                                                    Then  (PURTD.TD010 * PURTD.TD008*1.13 ) * cum_convert 
-                                                    Else (PURTD.TD010 * PURTD.TD008 / 1.11 ) * cum_convert    
+                                                    Else (PURTD.TD010 * PURTD.TD008 / 1.126) * cum_convert    
                                            End as NTAMT
                                 from       [ERPDB].[MSLCN].dbo.PURTC
                                 inner join [ERPDB].[MSLCN].dbo.PURTD
@@ -364,16 +364,16 @@ namespace MaterialProcurement
                                            PURTC.TC009                                                             as 備註,
                                            Case When PURTD.TD004 like 'A5DB23%' 
 				                             Then PURTD.TD010* cum_convert*1.13
-				                              Else PURTD.TD010* cum_convert/1.11
+				                              Else PURTD.TD010* cum_convert/1.26
 		                                   End  as 採購單價,
                                            PURTD.TD008                                                             as 數量合計,
                                            Case When PURTD.TD004 like 'A5DB23%' 
                                                   Then PURTD.TD010 * PURTD.TD008*1.13
-                                                   Else PURTD.TD010 * PURTD.TD008 / 1.11
+                                                   Else PURTD.TD010 * PURTD.TD008 / 1.126
                                            End as RMBAMT,
                                             Case When PURTD.TD004 like 'A5DB23%' 
                                                    Then  (PURTD.TD010 * PURTD.TD008*1.13 ) * cum_convert 
-                                                    Else (PURTD.TD010 * PURTD.TD008 / 1.11 ) * cum_convert    
+                                                    Else (PURTD.TD010 * PURTD.TD008 / 1.126 ) * cum_convert    
                                            End as NTAMT
                                 from       [ERPDB].[MSLCNNET].dbo.PURTC
                                 inner join [ERPDB].[MSLCNNET].dbo.PURTD    on    PURTC.TC001 = PURTD.TD001 and   PURTC.TC002 = PURTD.TD002
