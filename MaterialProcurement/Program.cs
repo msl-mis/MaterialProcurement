@@ -48,9 +48,9 @@ namespace MaterialProcurement
         static String oddate = "";                      //審核日期
         static String oduser = "";                      //審核者
 
-        
-        //static String strSQLConnection = "Data Source =192.168.10.22; Initial Catalog = Test; Persist Security Info=false; User ID = sa; Password = yzf; Max Pool Size=30000;Connection Timeout=1200";//資料庫連接測試區
-        static String strSQLConnection = "Data Source =192.168.10.22; Initial Catalog = Price; Persist Security Info=false; User ID = sa; Password = yzf; Max Pool Size=30000;Connection Timeout=1200";//資料庫連接正式區
+
+        //static String strSQLConnection = "Data Source =192.168.10.22; Initial Catalog = Test; Persist Security Info=false; User ID = saprice; Password = Msl@9414; Max Pool Size=30000;Connection Timeout=1200";//資料庫連接測試區
+        static String strSQLConnection = "Data Source =192.168.10.22; Initial Catalog = Price; Persist Security Info=false; User ID = saprice; Password = Msl@9414; Max Pool Size=30000;Connection Timeout=1200";//資料庫連接正式區
         static void Main(string[] args)
         {
             try
